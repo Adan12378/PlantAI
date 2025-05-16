@@ -1,0 +1,30 @@
+/* Variables de diseño */
+:root {
+
+    --primary: #b2e2b2;       /* Verde menta como color principal */
+    --primary-dark: #8ccb8c;  /* Verde más oscuro para hover */
+    --secondary: #e6d5b8;     /* Tierra clara como secundario */
+    --dark: #5a7247;          /* Verde oscuro para textos */
+    --light: #f8f8f8;         /* Blanco roto */
+    --accent: #d4b483;        /* Marrón suave para detalles */
+    --sky: #b5d2e7;           /* Azul cielo para contrastes */
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
+    }
+
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--dark);
+    line-height: 1.6;
+    background-color: var(--light);
+}
+
+/* Todos los estilos CSS de la versión anterior... */
+/* (Copia todo el contenido CSS que te proporcioné antes) */
