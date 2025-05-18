@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MiSitio Pro - Crea tu Web Profesional</title>
+    <title>PlantAI web - Crea tu Web Profesional</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -357,6 +362,122 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        /* Estilos para modales */
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 2000;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+          background-color: var(--light);
+          margin: 10% auto;
+          padding: 30px;
+          border-radius: 10px;
+          width: 90%;
+          max-width: 500px;
+          box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+          animation: modalopen 0.3s;
+          position: relative;
+        }
+
+        @keyframes modalopen {
+          from { opacity: 0; transform: translateY(-50px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-modal {
+          position: absolute;
+          top: 15px;
+          right: 25px;
+          font-size: 1.8rem;
+          cursor: pointer;
+          transition: var(--transition);
+        }
+
+        .close-modal:hover {
+          color: var(--primary);
+        }
+
+        .form-group {
+          margin-bottom: 20px;
+        }
+
+        .form-group label {
+          display: block;
+          margin-bottom: 8px;
+          font-weight: 500;
+        }
+
+        .form-group input {
+          width: 100%;
+          padding: 12px;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          font-family: 'Poppins', sans-serif;
+          transition: var(--transition);
+        }
+
+        .form-group input:focus {
+          border-color: var(--primary);
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(124, 183, 124, 0.3);
+        }
+
+        /* Loader */
+        .loader {
+          display: none;
+          border: 4px solid rgba(0, 0, 0, 0.1);
+          border-radius: 50%;
+          border-top: 4px solid var(--primary);
+          width: 40px;
+          height: 40px;
+          animation: spin 1s linear infinite;
+          margin: 20px auto;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        /* Alertas */
+        .alert {
+          padding: 15px;
+          margin-bottom: 20px;
+          border-radius: 5px;
+          font-weight: 500;
+        }
+
+        .alert-success {
+          background-color: rgba(124, 183, 124, 0.2);
+          color: var(--texto-oscuro);
+          border-left: 4px solid var(--verde-oscuro);
+        }
+
+        .alert-error {
+          background-color: rgba(255, 99, 71, 0.2);
+          color: #d32f2f;
+          border-left: 4px solid #d32f2f;
+        }
+
+        /* Estado de autenticación */
+        .user-greeting {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+        }
+
+        .user-greeting span {
+          font-weight: 500;
+        }
+
         /* Responsive Design */
         @media (max-width: 992px) {
             .nav-links {
@@ -418,7 +539,7 @@
     <section id="home" class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>esta pagina esta</h1>
+                <h1>Bienvenido a PlantAI</h1>
                 <p>Diseño moderno sin necesidad de código.</p>
                 <div class="hero-buttons">
                     <button class="btn">Comenzar ahora</button>
@@ -437,13 +558,13 @@
             </div>
             <div class="grid-container" id="grid">
                 <div class="grid-item" draggable="true">
-                    <img src="https://via.placeholder.com/600x400/0066ff/ffffff?text=Diseño+Web" alt="Diseño Web">
+                    <img src="https://placehold.co/600x400/0066ff/ffffff?text=Diseño+Web" alt="imagen">
                 </div>
                 <div class="grid-item" draggable="true">
-                    <img src="https://via.placeholder.com/600x400/00ccff/ffffff?text=Portfolio" alt="Portfolio">
+                   <img src="https://placehold.co/600x400/0066ff/ffffff?text=Diseño+Web" alt="imagen">
                 </div>
                 <div class="grid-item" draggable="true">
-                    <img src="https://via.placeholder.com/600x400/0066cc/ffffff?text=E-commerce" alt="E-commerce">
+                    <img src="https://placehold.co/600x400/0066ff/ffffff?text=Diseño+Web" alt="imagen">
                 </div>
             </div>
         </div>
@@ -487,7 +608,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-about">
-                    <div class="footer-logo">MiSitio</div>
+                    <div class="footer-logo">MiPlantAI</div>
                     <p>La plataforma más fácil para crear sitios web profesionales sin necesidad de código.</p>
                     <div class="social-icons">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -519,17 +640,97 @@
                     <ul>
                         <li><i class="fas fa-map-marker-alt"></i> Ciudad, País</li>
                         <li><i class="fas fa-phone"></i> +123 456 7890</li>
-                        <li><i class="fas fa-envelope"></i> info@misitio.com</li>
+                        <li><i class="fas fa-envelope"></i> info@miplantai.com</li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2023 MiSitio. Todos los derechos reservados.</p>
+                <p>&copy; 2023 MiPlantAI. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Modal de Login -->
+    <div id="loginModal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Iniciar Sesión</h2>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" required>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Contraseña</label>
+            <input type="password" id="loginPassword" required>
+          </div>
+          <button type="submit" class="btn">Ingresar</button>
+          <p style="margin-top: 15px; text-align: center;">
+            <a href="#" id="forgotPassword" style="color: var(--primary);">¿Olvidaste tu contraseña?</a>
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal de Registro -->
+    <div id="registerModal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Registrarse</h2>
+        <form id="registerForm">
+          <div class="form-group">
+            <label for="registerName">Nombre</label>
+            <input type="text" id="registerName" required>
+          </div>
+          <div class="form-group">
+            <label for="registerEmail">Email</label>
+            <input type="email" id="registerEmail" required>
+          </div>
+          <div class="form-group">
+            <label for="registerPassword">Contraseña</label>
+            <input type="password" id="registerPassword" required>
+          </div>
+          <div class="form-group">
+            <label for="registerConfirm">Confirmar Contraseña</label>
+            <input type="password" id="registerConfirm" required>
+          </div>
+          <button type="submit" class="btn">Registrarse</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal de Restablecer Contraseña -->
+    <div id="resetModal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Restablecer Contraseña</h2>
+        <form id="resetPasswordForm">
+          <div class="form-group">
+            <label for="resetEmail">Email</label>
+            <input type="email" id="resetEmail" required>
+          </div>
+          <button type="submit" class="btn">Enviar Instrucciones</button>
+        </form>
+      </div>
+    </div>
+
     <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+  apiKey: "AIzaSyANRRANNbIPyWJ8Y2cZPptI2KIOr-BK3jg",
+  authDomain: "mi-pagina-web-8e44f.firebaseapp.com",
+  projectId: "mi-pagina-web-8e44f",
+  storageBucket: "mi-pagina-web-8e44f.firebasestora ge.app",
+  messagingSenderId: "677956188601",
+  appId: "1:677956188601:web:31cdcbcd252d62c1a5de68",
+  measurementId: "G-NZCH323XRN"
+        };
+
+        // Inicializa Firebase
+const app = firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
         // Efecto de scroll en navbar
         window.addEventListener('scroll', function() {
             const navbar = document.querySelector('.navbar');
@@ -541,20 +742,22 @@
         });
 
         // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
+        // Smooth scrolling - Versión corregida
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return; // Saltar enlaces vacíos
+        
+        e.preventDefault();
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            window.scrollTo({
+                top: targetElement.offsetTop - 80,
+                behavior: 'smooth'
             });
-        });
-
+        }
+    });
+});
         // Drag & Drop
         document.addEventListener('DOMContentLoaded', () => {
             const grid = document.getElementById('grid');
@@ -613,6 +816,273 @@
                 });
             });
         });
+
+        // ==============================================
+        // IMPLEMENTACIÓN DE FIREBASE AUTHENTICATION
+        // ==============================================
+
+        // Variables globales
+        let currentUser = null;
+
+        // Elementos del DOM
+        const loginModal = document.getElementById('loginModal');
+        const registerModal = document.getElementById('registerModal');
+        const resetModal = document.getElementById('resetModal');
+        const loginBtn = document.querySelector('.nav-actions .btn-outline');
+        const registerBtn = document.querySelector('.nav-actions .btn:not(.btn-outline)');
+        const closeButtons = document.querySelectorAll('.close-modal');
+        const forgotPasswordLink = document.getElementById('forgotPassword');
+
+        // Mostrar/ocultar modales
+        loginBtn.addEventListener('click', () => {
+            loginModal.style.display = 'block';
+            registerModal.style.display = 'none';
+            resetModal.style.display = 'none';
+        });
+        
+        registerBtn.addEventListener('click', () => {
+            registerModal.style.display = 'block';
+            loginModal.style.display = 'none';
+            resetModal.style.display = 'none';
+        });
+
+        // Cerrar modales
+        closeButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            });
+        });
+
+        // Cerrar al hacer clic fuera del modal
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+
+        // Enlace "Olvidé mi contraseña"
+        forgotPasswordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.style.display = 'none';
+            resetModal.style.display = 'block';
+        });
+
+        // Formulario de registro
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    try {
+        showLoader(this);
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        
+        // Verifica si el email está verificado
+        if (!userCredential.user.emailVerified) {
+            await auth.signOut();  // Cierra sesión si no está verificado
+            throw new Error('Por favor verifica tu email antes de iniciar sesión.');
+        }
+        
+        loginModal.style.display = 'none';
+        this.reset();
+        showAlertGlobal('¡Bienvenido!', 'success');
+    } catch (error) {
+        let errorMessage = error.message;
+        
+        // Mensajes personalizados para errores comunes
+        if (error.code === 'auth/wrong-password') {
+            errorMessage = 'Contraseña incorrecta';
+        } else if (error.code === 'auth/user-not-found') {
+            errorMessage = 'Usuario no registrado';
+        }
+        
+        showAlert(errorMessage, 'error', this);
+    } finally {
+        hideLoader(this);
+    }
+});
+
+        // Formulario de login
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                showLoader(this);
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                
+                // Actualizar último login en Firestore
+                await db.collection('users').doc(userCredential.user.uid).update({
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                loginModal.style.display = 'none';
+                this.reset();
+            } catch (error) {
+                showAlert(getAuthErrorMessage(error), 'error', this);
+            } finally {
+                hideLoader(this);
+            }
+        });
+
+        // Formulario para restablecer contraseña
+        document.getElementById('resetPasswordForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('resetEmail').value;
+            
+            try {
+                showLoader(this);
+                await auth.sendPasswordResetEmail(email);
+                showAlert(`Hemos enviado un email con instrucciones a ${email}`, 'success', this);
+                resetModal.style.display = 'none';
+                this.reset();
+            } catch (error) {
+                showAlert(getAuthErrorMessage(error), 'error', this);
+            } finally {
+                hideLoader(this);
+            }
+        });
+
+        // Observador de estado de autenticación
+        auth.onAuthStateChanged((user) => {
+            currentUser = user;
+            updateAuthUI();
+            
+            if (user) {
+                console.log('Usuario autenticado:', user.email);
+            } else {
+                console.log('No hay usuario autenticado');
+            }
+        });
+
+        // Función para actualizar la UI según el estado de autenticación
+        function updateAuthUI() {
+            const navActions = document.querySelector('.nav-actions');
+            
+            if (currentUser) {
+                // Usuario autenticado
+                navActions.innerHTML = `
+                    <div class="user-greeting">
+                        <span>Hola, ${currentUser.displayName || currentUser.email.split('@')[0]}</span>
+                        <button id="logoutBtn" class="btn btn-outline">Cerrar Sesión</button>
+                    </div>
+                `;
+                
+                // Evento para cerrar sesión
+                document.getElementById('logoutBtn').addEventListener('click', async () => {
+                    try {
+                        await auth.signOut();
+                        showAlertGlobal('Sesión cerrada correctamente', 'success');
+                    } catch (error) {
+                        showAlertGlobal(getAuthErrorMessage(error), 'error');
+                    }
+                });
+            } else {
+                // Usuario no autenticado
+                navActions.innerHTML = `
+                    <button class="btn btn-outline">Iniciar Sesión</button>
+                    <button class="btn">Regístrate</button>
+                `;
+                
+                // Reasignar eventos a los botones
+                document.querySelector('.nav-actions .btn-outline').addEventListener('click', () => {
+                    loginModal.style.display = 'block';
+                    registerModal.style.display = 'none';
+                    resetModal.style.display = 'none';
+                });
+                
+                document.querySelector('.nav-actions .btn:not(.btn-outline)').addEventListener('click', () => {
+                    registerModal.style.display = 'block';
+                    loginModal.style.display = 'none';
+                    resetModal.style.display = 'none';
+                });
+            }
+        }
+
+        // Función para mostrar mensajes de error
+        function getAuthErrorMessage(error) {
+            const errorMessages = {
+                'auth/email-already-in-use': 'Este email ya está registrado',
+                'auth/invalid-email': 'Email no válido',
+                'auth/weak-password': 'La contraseña debe tener al menos 6 caracteres',
+                'auth/user-not-found': 'Usuario no encontrado',
+                'auth/wrong-password': 'Contraseña incorrecta',
+                'auth/too-many-requests': 'Demasiados intentos. Intenta más tarde',
+                'auth/operation-not-allowed': 'Operación no permitida',
+                'auth/user-disabled': 'Esta cuenta ha sido deshabilitada'
+            };
+            
+            return errorMessages[error.code] || error.message || 'Ocurrió un error desconocido';
+        }
+
+        // Función para mostrar alertas en formularios
+        function showAlert(message, type, form) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            
+            // Insertar después del título en el modal
+            const existingAlert = form.querySelector('.alert');
+            
+            if (existingAlert) {
+                existingAlert.replaceWith(alertDiv);
+            } else {
+                form.querySelector('h2').insertAdjacentElement('afterend', alertDiv);
+            }
+            
+            // Eliminar después de 5 segundos
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Función para mostrar alertas globales (fuera de formularios)
+        function showAlert(message, type, formElement) {
+    // Crear el elemento de alerta
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type}`;
+    alertDiv.textContent = message;
+    
+    // Limpiar alertas anteriores
+    const existingAlert = formElement.querySelector('.alert');
+    if (existingAlert) {
+        existingAlert.remove();
+    }
+    
+    // Insertar después del título h2 o como primer elemento si no hay título
+    const h2 = formElement.querySelector('h2');
+    if (h2) {
+        h2.insertAdjacentElement('afterend', alertDiv);
+    } else {
+        formElement.insertAdjacentElement('afterbegin', alertDiv);
+    }
+    
+    // Eliminar después de 5 segundos
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+
+        // Función para mostrar loader
+        function showLoader(form) {
+            const loader = document.createElement('div');
+            loader.className = 'loader';
+            form.appendChild(loader);
+            form.querySelector('button[type="submit"]').disabled = true;
+        }
+
+        // Función para ocultar loader
+        function hideLoader(form) {
+            const loader = form.querySelector('.loader');
+            if (loader) loader.remove();
+            form.querySelector('button[type="submit"]').disabled = false;
+        }
     </script>
 </body>
 </html>
